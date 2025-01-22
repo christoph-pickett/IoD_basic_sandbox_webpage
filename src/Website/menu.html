@@ -89,17 +89,37 @@
     <main>
       <section id="boxes">
         <!-- flex container #3 -->
-        <div id="content-one" class="box"></div>
-        <div id="content-two" class="box"></div>
+        <div id="content-one" class="box">
+          <h2 id="content-one-title"></h2>
+          <div id="content-one-items"></div>
+        </div>
+        <div id="content-two" class="box">
+          <h2 id="content-two-title"></h2>
+          <div id="content-two-items"></div>
+        </div>
         <div id="content-three" class="box box-extra"></div>
       </section>
     </main>
     <script>
+      const ONE_SCOOP = "one_scoop";
+      const TWO_SCOOPS = "two_scoops";
+
       const products = [
-        { name: "vanilla - one scoup", price: 5.95 },
-        { name: "choco - one scoup", price: 5.95 },
-        { name: "matcha - one scoup", price: 5.95 },
+        { name: "vanilla", price: 5.95, catagory: ONE_SCOOP },
+        { name: "choco", price: 5.95, catagory: ONE_SCOOP },
+        { name: "matcha", price: 5.95, catagory: ONE_SCOOP },
+        { name: "vanilla", price: 7.95, catagory: TWO_SCOOPS },
+        { name: "choco", price: 7.95, catagory: TWO_SCOOPS },
+        { name: "matcha", price: 7.95, catagory: TWO_SCOOPS },
       ];
+
+      const oneScoopItems = products.filter(
+        (item) => item.catagory === ONE_SCOOP
+      );
+
+      const twoScoopsItems = products.filter(
+        (item) => item.catagory === TWO_SCOOPS
+      );
 
       function menuBuilder(products) {
         let htmlString = "<ul>";
@@ -127,8 +147,8 @@
           },
         ],
         contentList: [
-          menuBuilder(products),
-          "adasda adsasd aasdasd asdasdasd asdaasdas",
+          menuBuilder(oneScoopItems),
+          menuBuilder(twoScoopsItems),
           "adasda adsasd aasdasd asdasdasd asdaasdas",
         ],
         // MENU, IN YOUR AREA, ABOUT US
@@ -148,9 +168,68 @@
       });
 
       // CREATE CONTENT TO FIT INSIDE THE 3 boxes
-      const contentOne = document.getElementById("content-one");
+      const contentOneHeader = document.getElementById("content-one-title");
+      contentOneHeader.innerText = ONE_SCOOP.toLocaleUpperCase().replace(
+        "_",
+        " "
+      );
+
+      const contentOneItems = document.getElementById("content-one-items");
       const contentOneHtml = exampleLayoutConfig.contentList[0];
-      contentOne.innerHTML = contentOneHtml;
+      contentOneItems.innerHTML = contentOneHtml;
+
+      const contentTwoHeader = document.getElementById("content-two-title");
+      contentTwoHeader.innerText = TWO_SCOOPS.toLocaleUpperCase().replace(
+        "_",
+        " "
+      );
+
+      const contentTwoItems = document.getElementById("content-two-items");
+      const contentTwoHtml = exampleLayoutConfig.contentList[1];
+      contentTwoItems.innerHTML = contentTwoHtml;
+
+      // A SHOPPING BASKET EMPTY ARRAY
+      const shoppingBasket = [];
+
+      // CUSTOMER ORDERS VANILLA ICE CREAM ONE SCOOP
+      shoppingBasket.push(
+        products.find(
+          (item) => item.name === "vanilla" && item.catagory === ONE_SCOOP
+        )
+      );
+      console.log("first step: ", shoppingBasket);
+
+      // CUSTOMER ORDERS CHOCO ICECREAM TWO SCOOPS
+      shoppingBasket.push(
+        products.find(
+          (item) => item.name === "choco" && item.catagory === TWO_SCOOPS
+        )
+      );
+      console.log("second step: ", shoppingBasket);
+
+      // CUSTOMER DOES NOT WANT TWO SCOOPS, THEY JUST WANT ONE.
+      shoppingBasket[1].catagory = ONE_SCOOP;
+      shoppingBasket.pop();
+      shoppingBasket.push(
+        products.find(
+          (item) => item.name === "choco" && item.catagory === ONE_SCOOP
+        )
+      );
+      console.log("third step: ", shoppingBasket, products);
+
+      // CUSTOMER DOES NOT WANT THE VANILLA ICECREAM ANY MORE.
+      shoppingBasket.shift();
+      console.log("fourth step: ", [...shoppingBasket]);
+
+      // CUSTOMER NOW ORDERS 2 MORE ICE CREAMS (3 items in the array)
+      shoppingBasket.push(products[4]);
+      shoppingBasket.push(products[2]);
+
+      console.log("fifth step: ", [...shoppingBasket]);
+
+      // CUSTOMER NOW DOESNT WANT the 2nd ITEM THEY ORDERS
+      shoppingBasket.splice(1, 1);
+      console.log("sixth step: ", [...shoppingBasket]);
     </script>
   </body>
 </html>
