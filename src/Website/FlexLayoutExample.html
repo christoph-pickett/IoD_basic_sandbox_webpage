@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox Demonstration</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 18px;
+      }
+      header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background: black;
+        padding: 1em;
+      }
+
+      #boxes {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .box {
+        flex: 1;
+        /* width: 25%; */
+      }
+
+      .box-extra {
+        flex: 2;
+      }
+
+      #logo {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #b200ff;
+      }
+      #main-menu {
+        width: 250px;
+        align-content: center;
+      }
+      .menu {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        color: yellow;
+      }
+
+      #header-title {
+        color: white;
+      }
+      main {
+        max-width: 80%;
+        margin: 1em auto;
+      }
+      .box {
+        border-radius: 1em;
+        min-width: 300px;
+        min-height: 300px;
+        border: 2px solid #404040;
+        background: #b2b2b2;
+        margin: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- flex container #1 -->
+      <div id="logo"></div>
+      <p id="header-title"></p>
+      <nav id="main-menu"></nav>
+      <ul class="menu">
+        <!-- flex container #2-->
+      </ul>
+    </header>
+    <main>
+      <section id="boxes">
+        <!-- flex container #3 -->
+        <div id="content-one" class="box"></div>
+        <div id="content-two" class="box"></div>
+        <div id="content-three" class="box box-extra"></div>
+      </section>
+    </main>
+    <script>
+      const exampleLayoutConfig = {
+        title: "Ice Cream",
+        navOptions: [
+          {
+            title: "MENU",
+            href: "menu.html",
+          },
+          {
+            title: "IN YOUR AREA",
+            href: "/in-your-area",
+          },
+          {
+            title: "ABOUT US",
+            href: "/about-us",
+          },
+        ],
+        contentList: [
+          "adasda adsasd aasdasd asdasdasd asdaasdas",
+          "adasda adsasd aasdasd asdasdasd asdaasdas",
+          "adasda adsasd aasdasd asdasdasd asdaasdas",
+        ],
+        // MENU, IN YOUR AREA, ABOUT US
+      };
+
+      // CREATE HEADER FOR THE PAGE
+      document.getElementById("header-title").textContent =
+        exampleLayoutConfig.title;
+
+      // CREATE NEW NAV OPTIONS
+
+      exampleLayoutConfig.navOptions.forEach((thisThing) => {
+        const newMenuItem = document.createElement("a");
+        newMenuItem.textContent = thisThing.title;
+        newMenuItem.href = thisThing.href;
+        document.querySelector(".menu").appendChild(newMenuItem);
+      });
+
+      // CREATE CONTENT TO FIT INSIDE THE 3 boxes
+    </script>
+  </body>
+</html>
+<!-- this CodePen also demonstrates flexbox properties and usage: https://codepen.io/chriscoyier/pen/kNZRER -->
