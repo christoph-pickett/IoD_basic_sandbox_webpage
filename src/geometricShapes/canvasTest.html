@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Test</title>
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0px;
+      }
+
+      canvas {
+        border: solid 1px;
+      }
+    </style>
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+      var canvas = document.querySelector("canvas");
+      canvas.width = window.innerWidth - 10;
+      canvas.height = window.innerHeight - 10;
+
+      var context = canvas.getContext("2d");
+
+      function Rectangle(x, y, width, height, color) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+
+        this.draw = function (context) {
+          context.fillStyle = this.color;
+          context.fillRect(this.x, this.y, this.width, this.height);
+        };
+
+        this.clear = function (context) {
+          context.clearRect(this.x, this.y, this.width, this.height);
+        };
+      }
+
+      let xPos = 80;
+      let yPos = 80;
+      let squareHeight = 100;
+      let squareWidth = 150;
+
+      var myRectangle = new Rectangle(
+        xPos,
+        yPos,
+        squareWidth,
+        squareHeight,
+        "#FF0000"
+      );
+      myRectangle.draw(context);
+
+      document.addEventListener("keydown", function (event) {
+        const step = 10;
+        myRectangle.clear(context);
+
+        switch (event.key) {
+          case "ArrowUp":
+            if (yPos - step >= 0) yPos -= step;
+            break;
+          case "ArrowDown":
+            if (yPos + step + squareHeight <= canvas.height) yPos += step;
+            break;
+          case "ArrowLeft":
+            if (xPos - step >= 0) xPos -= step;
+            break;
+          case "ArrowRight":
+            if (xPos + step + squareWidth <= canvas.width) xPos += step;
+            break;
+        }
+
+        myRectangle = new Rectangle(
+          xPos,
+          yPos,
+          squareWidth,
+          squareHeight,
+          "#FF0000"
+        );
+        myRectangle.draw(context);
+      });
+    </script>
+  </body>
+</html>
