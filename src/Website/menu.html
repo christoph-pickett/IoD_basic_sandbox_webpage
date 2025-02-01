@@ -87,10 +87,17 @@
       </ul>
     </header>
     <main>
+      <button id="sort-alpha-button" onclick="sortForContentAlpha()">
+        ABC
+      </button>
+      <button id="sort-numeric-button" onclick="sortForContentNumeric()">
+        123
+      </button>
       <section id="boxes">
         <!-- flex container #3 -->
         <div id="content-one" class="box">
           <h2 id="content-one-title"></h2>
+
           <div id="content-one-items"></div>
         </div>
         <div id="content-two" class="box">
@@ -104,21 +111,57 @@
       const ONE_SCOOP = "one_scoop";
       const TWO_SCOOPS = "two_scoops";
 
-      const products = [
-        { name: "vanilla", price: 5.95, catagory: ONE_SCOOP },
-        { name: "choco", price: 5.95, catagory: ONE_SCOOP },
-        { name: "matcha", price: 5.95, catagory: ONE_SCOOP },
-        { name: "vanilla", price: 7.95, catagory: TWO_SCOOPS },
-        { name: "choco", price: 7.95, catagory: TWO_SCOOPS },
-        { name: "matcha", price: 7.95, catagory: TWO_SCOOPS },
-      ];
+      // PRODUCT CONSTRUCTOR
+      function Product(name, price, category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+      }
 
+      const products = [];
+
+      const listOfProductNames = [
+        "Vanilla",
+        "Chocolate",
+        "Mint Choc Chip",
+        "Honey Comb",
+        "Coffee",
+        "Pistachio",
+        "test",
+      ];
+      const listOfPrices = [6.95, 5.95, 6.5, 5.3, 4.99, 3.95, 6.25];
+      const listOfCatagories = [ONE_SCOOP, TWO_SCOOPS];
+
+      let newItem;
+      for (i = 0; i < listOfPrices.length; i++) {
+        newItem = new Product(
+          listOfProductNames[i],
+          listOfPrices[i],
+          listOfCatagories[0]
+        );
+        products.push(newItem);
+        // if (!newItem.name === "test") {
+        products.push({
+          ...newItem,
+          price: newItem.price + 2,
+          category: listOfCatagories[1],
+        });
+        // }
+      }
+
+      // products.push({ name: "one", price: 10.95, catagory: ONE_SCOOP });
+
+      console.log("products", products);
+
+      // if (products.length < 1) {
+      //   console.log("no products found");
+      // }
       const oneScoopItems = products.filter(
-        (item) => item.catagory === ONE_SCOOP
+        (item) => item.category === ONE_SCOOP
       );
 
       const twoScoopsItems = products.filter(
-        (item) => item.catagory === TWO_SCOOPS
+        (item) => item.category === TWO_SCOOPS
       );
 
       function menuBuilder(products) {
@@ -184,6 +227,61 @@
         " "
       );
 
+      const insertItemsByEleIdHandler = (items, elementId, sortType) => {
+        if (items && elementId) {
+          const contentItemsEle = document.getElementById(elementId);
+          const sortedItems = sortByTypeHandler(items, sortType);
+          const contentHtml = menuBuilder(sortedItems);
+
+          contentItemsEle.innerHTML = contentHtml;
+        }
+      };
+
+      const sortByData = (a, b) => {
+        if (a < b) {
+          return -1;
+        }
+
+        if (a > b) {
+          1;
+        }
+
+        return 0;
+      };
+
+      const sortByTypeHandler = (data, sortType) => {
+        if (sortType === "alpha") {
+          return data.sort((itemOne, itemTwo) =>
+            sortByData(itemOne.name, itemTwo.name)
+          );
+        }
+        if (sortType === "numeric") {
+          return data.sort((itemOne, itemTwo) =>
+            sortByData(itemOne.price, itemTwo.price)
+          );
+        }
+
+        return data;
+      };
+
+      const sortForContentAlpha = () => {
+        insertItemsByEleIdHandler(oneScoopItems, "content-one-items", "alpha");
+        insertItemsByEleIdHandler(twoScoopsItems, "content-two-items", "alpha");
+      };
+
+      const sortForContentNumeric = () => {
+        insertItemsByEleIdHandler(
+          oneScoopItems,
+          "content-one-items",
+          "numeric"
+        );
+        insertItemsByEleIdHandler(
+          twoScoopsItems,
+          "content-two-items",
+          "numeric"
+        );
+      };
+
       const contentTwoItems = document.getElementById("content-two-items");
       const contentTwoHtml = exampleLayoutConfig.contentList[1];
       contentTwoItems.innerHTML = contentTwoHtml;
@@ -197,7 +295,7 @@
           (item) => item.name === "vanilla" && item.catagory === ONE_SCOOP
         )
       );
-      console.log("first step: ", shoppingBasket);
+      // console.log("first step: ", shoppingBasket);
 
       // CUSTOMER ORDERS CHOCO ICECREAM TWO SCOOPS
       shoppingBasket.push(
@@ -205,7 +303,7 @@
           (item) => item.name === "choco" && item.catagory === TWO_SCOOPS
         )
       );
-      console.log("second step: ", shoppingBasket);
+      // console.log("second step: ", shoppingBasket);
 
       // CUSTOMER DOES NOT WANT TWO SCOOPS, THEY JUST WANT ONE.
       shoppingBasket[1].catagory = ONE_SCOOP;
@@ -215,21 +313,107 @@
           (item) => item.name === "choco" && item.catagory === ONE_SCOOP
         )
       );
-      console.log("third step: ", shoppingBasket, products);
+      // console.log("third step: ", shoppingBasket, products);
 
       // CUSTOMER DOES NOT WANT THE VANILLA ICECREAM ANY MORE.
       shoppingBasket.shift();
-      console.log("fourth step: ", [...shoppingBasket]);
+      // console.log("fourth step: ", [...shoppingBasket]);
 
       // CUSTOMER NOW ORDERS 2 MORE ICE CREAMS (3 items in the array)
       shoppingBasket.push(products[4]);
       shoppingBasket.push(products[2]);
 
-      console.log("fifth step: ", [...shoppingBasket]);
+      // console.log("fifth step: ", [...shoppingBasket]);
 
       // CUSTOMER NOW DOESNT WANT the 2nd ITEM THEY ORDERS
       shoppingBasket.splice(1, 1);
-      console.log("sixth step: ", [...shoppingBasket]);
+      // console.log("sixth step: ", [...shoppingBasket]);
+
+      // ------ AFTER THIS LINE WAS JUST SOME CLASS ACTIVITY STUFF, I"LL LEAVE IN FOR NOW
+      function book(title, cost, barcode, author, optionalSomething) {
+        this.title, this.cost, this.barcode, this.author;
+      }
+
+      const bookshelf = [];
+
+      // const firstBook = {
+      //   title: 'Harry potter: something',
+      //   cost: 9.95,
+      //   barcode: "01230-129301293"
+      // }
+
+      const firstBook = new book(
+        "Harry potter: something",
+        9.95,
+        "01230-129301293",
+        "JK R"
+      );
+      // const secondBook = new book()
+      console.log("first book", firstBook);
+
+      bookshelf.push({
+        title: "Z",
+        cost: 9.95,
+        barcode: "01230-129301293",
+      });
+
+      // bookshelf[0] = firstbook;
+      /*
+            "Harry potter: something",
+                    9.95,
+                    "01230-129301293",
+                    "JK R"
+                    */
+
+      bookshelf[1] = {
+        title: "A",
+        cost: 1.95,
+        barcode: "023230-12213301293",
+      };
+
+      bookshelf[2] = {
+        title: "B",
+        cost: 0.75,
+        barcode: "asdadasasda",
+      };
+
+      bookshelf[3] = {
+        title: "C",
+        cost: 11.75,
+        barcode: "111asdadasasda",
+      };
+
+      // const matchedBookIndex = bookshelf.findIndex("Harry potter: something");
+
+      // console.log(bookshelf[0].title);
+      // console.log(bookshelf[matchedBookIndex].title);
+      // console.log(firstBook.title);
+
+      const listOfBookPrices = bookshelf.map((book) => book.cost);
+
+      // console.log("bookshelf", bookshelf);
+
+      const simplifiedBookshelf = bookshelf
+        .map((book) => {
+          return {
+            price: book.cost,
+            title: book.title,
+          };
+        })
+        .sort((bookOne, bookTwo) =>
+          sortByAlphabet(bookOne.price, bookTwo.price)
+        );
+      // .sort((priceOne, priceTwo) => priceOne - priceTwo)
+      // .reverse();
+
+      // console.log("simplifed bookshelf ", simplifiedBookshelf);
+      // console.log("listOfBookPrices", listOfBookPrices);
+      // listOfBookPrices.sort((valueOne, valueTwo) => valueOne - valueTwo);
+
+      // console.log("sorted list of book prices", listOfBookPrices);
+
+      const indexMatch = 1;
+      transformedBookshelf[indexMatch] = bookshelf[indexMatch];
     </script>
   </body>
 </html>
