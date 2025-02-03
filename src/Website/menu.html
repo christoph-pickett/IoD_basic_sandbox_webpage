@@ -74,6 +74,41 @@
         background: #b2b2b2;
         margin: 1em;
       }
+
+      #search-bar {
+        display: flex;
+        flex-direction: row;
+        margin: 8px 0px;
+      }
+
+      #search-box-button {
+        margin-left: 8px;
+      }
+
+      #main-container {
+        display: flex;
+        flex-direction: row;
+      }
+
+      #shopping-basket {
+        display: flex;
+        flex-direction: column;
+        margin: 8px;
+        border: solid 1px black;
+        padding: 4px;
+        width: 350px;
+      }
+
+      #shopping-label {
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      .add-item {
+        margin-left: 4px;
+      }
     </style>
   </head>
   <body>
@@ -93,19 +128,32 @@
       <button id="sort-numeric-button" onclick="sortForContentNumeric()">
         123
       </button>
-      <section id="boxes">
-        <!-- flex container #3 -->
-        <div id="content-one" class="box">
-          <h2 id="content-one-title"></h2>
+      <div id="search-bar">
+        <input type="text" id="search-box" placeholder="Search products..." />
+        <button id="search-box-button" onclick="searchProducts()">
+          Search
+        </button>
+      </div>
 
-          <div id="content-one-items"></div>
-        </div>
-        <div id="content-two" class="box">
-          <h2 id="content-two-title"></h2>
-          <div id="content-two-items"></div>
-        </div>
-        <div id="content-three" class="box box-extra"></div>
-      </section>
+      <div id="main-container">
+        <section id="boxes">
+          <!-- flex container #3 -->
+          <div id="content-one" class="box">
+            <h2 id="content-one-title"></h2>
+
+            <div id="content-one-items"></div>
+          </div>
+          <div id="content-two" class="box">
+            <h2 id="content-two-title"></h2>
+            <div id="content-two-items"></div>
+          </div>
+          <div id="content-three" class="box box-extra"></div>
+        </section>
+        <section id="shopping-basket">
+          <div id="shopping-label">Shopping Basket</div>
+          <div id="shopping-items"></div>
+        </section>
+      </div>
     </main>
     <script>
       const ONE_SCOOP = "one_scoop";
@@ -117,6 +165,9 @@
         this.price = price;
         this.category = category;
       }
+
+      // SHOPPING BASKET
+      const userSelectedProducts = [];
 
       const products = [];
 
@@ -139,12 +190,13 @@
           listOfPrices[i],
           listOfCatagories[0]
         );
-        products.push(newItem);
+        products.push({ ...newItem, qty: 0 });
         // if (!newItem.name === "test") {
         products.push({
           ...newItem,
           price: newItem.price + 2,
           category: listOfCatagories[1],
+          qty: 0,
         });
         // }
       }
@@ -167,7 +219,11 @@
       function menuBuilder(products) {
         let htmlString = "<ul>";
         products.forEach((item) => {
-          htmlString += `<li>${item.name} - $${item.price.toFixed(2)}</li>`;
+          htmlString += `<li>${item.name} - $${item.price.toFixed(
+            2
+          )} <button onclick='purchaseItem(${JSON.stringify(
+            item
+          )})'>+</button></li>`;
         });
         htmlString += "</ul>";
         return htmlString;
@@ -230,7 +286,12 @@
       const insertItemsByEleIdHandler = (items, elementId, sortType) => {
         if (items && elementId) {
           const contentItemsEle = document.getElementById(elementId);
-          const sortedItems = sortByTypeHandler(items, sortType);
+          let sortedItems;
+          if (sortType) {
+            sortedItems = sortByTypeHandler(items, sortType);
+          } else {
+            sortedItems = items;
+          }
           const contentHtml = menuBuilder(sortedItems);
 
           contentItemsEle.innerHTML = contentHtml;
@@ -289,131 +350,49 @@
       // A SHOPPING BASKET EMPTY ARRAY
       const shoppingBasket = [];
 
-      // CUSTOMER ORDERS VANILLA ICE CREAM ONE SCOOP
-      shoppingBasket.push(
-        products.find(
-          (item) => item.name === "vanilla" && item.catagory === ONE_SCOOP
-        )
-      );
-      // console.log("first step: ", shoppingBasket);
+      function searchProducts() {
+        const userInput = document.getElementById("search-box");
+        const searchTerm = userInput.value.toLowerCase();
 
-      // CUSTOMER ORDERS CHOCO ICECREAM TWO SCOOPS
-      shoppingBasket.push(
-        products.find(
-          (item) => item.name === "choco" && item.catagory === TWO_SCOOPS
-        )
-      );
-      // console.log("second step: ", shoppingBasket);
+        console.log("search", searchTerm);
+        const matchedProducts = products.filter((prod) =>
+          prod.name.toLowerCase().includes(searchTerm)
+        );
 
-      // CUSTOMER DOES NOT WANT TWO SCOOPS, THEY JUST WANT ONE.
-      shoppingBasket[1].catagory = ONE_SCOOP;
-      shoppingBasket.pop();
-      shoppingBasket.push(
-        products.find(
-          (item) => item.name === "choco" && item.catagory === ONE_SCOOP
-        )
-      );
-      // console.log("third step: ", shoppingBasket, products);
-
-      // CUSTOMER DOES NOT WANT THE VANILLA ICECREAM ANY MORE.
-      shoppingBasket.shift();
-      // console.log("fourth step: ", [...shoppingBasket]);
-
-      // CUSTOMER NOW ORDERS 2 MORE ICE CREAMS (3 items in the array)
-      shoppingBasket.push(products[4]);
-      shoppingBasket.push(products[2]);
-
-      // console.log("fifth step: ", [...shoppingBasket]);
-
-      // CUSTOMER NOW DOESNT WANT the 2nd ITEM THEY ORDERS
-      shoppingBasket.splice(1, 1);
-      // console.log("sixth step: ", [...shoppingBasket]);
-
-      // ------ AFTER THIS LINE WAS JUST SOME CLASS ACTIVITY STUFF, I"LL LEAVE IN FOR NOW
-      function book(title, cost, barcode, author, optionalSomething) {
-        this.title, this.cost, this.barcode, this.author;
+        console.log("matchedProducts", matchedProducts);
       }
 
-      const bookshelf = [];
+      function purchaseItem(product) {
+        if (product && product?.qty > -1) {
+          // validate if the item exists
+          const matchedIndex = userSelectedProducts.findIndex(
+            (item) =>
+              item.name === product.name && item.category === product.category
+          );
 
-      // const firstBook = {
-      //   title: 'Harry potter: something',
-      //   cost: 9.95,
-      //   barcode: "01230-129301293"
-      // }
+          // HAPPY PATH - NO ITEM EXISTS
+          if (matchedIndex === -1) {
+            userSelectedProducts.push({ ...product, qty: 1 });
+          } else {
+            userSelectedProducts[matchedIndex].qty++;
+          }
 
-      const firstBook = new book(
-        "Harry potter: something",
-        9.95,
-        "01230-129301293",
-        "JK R"
-      );
-      // const secondBook = new book()
-      console.log("first book", firstBook);
+          // UNHAPPY PATH - ITEM EXISTS, NEED TO AMEND WHATS ALREADY THERE
 
-      bookshelf.push({
-        title: "Z",
-        cost: 9.95,
-        barcode: "01230-129301293",
-      });
+          // add product to basket
+        }
 
-      // bookshelf[0] = firstbook;
-      /*
-            "Harry potter: something",
-                    9.95,
-                    "01230-129301293",
-                    "JK R"
-                    */
+        console.log("shoppingBasket", userSelectedProducts);
 
-      bookshelf[1] = {
-        title: "A",
-        cost: 1.95,
-        barcode: "023230-12213301293",
-      };
-
-      bookshelf[2] = {
-        title: "B",
-        cost: 0.75,
-        barcode: "asdadasasda",
-      };
-
-      bookshelf[3] = {
-        title: "C",
-        cost: 11.75,
-        barcode: "111asdadasasda",
-      };
-
-      // const matchedBookIndex = bookshelf.findIndex("Harry potter: something");
-
-      // console.log(bookshelf[0].title);
-      // console.log(bookshelf[matchedBookIndex].title);
-      // console.log(firstBook.title);
-
-      const listOfBookPrices = bookshelf.map((book) => book.cost);
-
-      // console.log("bookshelf", bookshelf);
-
-      const simplifiedBookshelf = bookshelf
-        .map((book) => {
-          return {
-            price: book.cost,
-            title: book.title,
-          };
-        })
-        .sort((bookOne, bookTwo) =>
-          sortByAlphabet(bookOne.price, bookTwo.price)
-        );
-      // .sort((priceOne, priceTwo) => priceOne - priceTwo)
-      // .reverse();
-
-      // console.log("simplifed bookshelf ", simplifiedBookshelf);
-      // console.log("listOfBookPrices", listOfBookPrices);
-      // listOfBookPrices.sort((valueOne, valueTwo) => valueOne - valueTwo);
-
-      // console.log("sorted list of book prices", listOfBookPrices);
-
-      const indexMatch = 1;
-      transformedBookshelf[indexMatch] = bookshelf[indexMatch];
+        let shoppingItemsHtml = "<ul>";
+        userSelectedProducts.forEach((item) => {
+          shoppingItemsHtml += `<li>${item.name} - $${item.price.toFixed(
+            2
+          )} (Qty: ${item.qty})</li>`;
+        });
+        shoppingItemsHtml += "</ul>";
+        document.getElementById("shopping-items").innerHTML = shoppingItemsHtml;
+      }
     </script>
   </body>
 </html>
