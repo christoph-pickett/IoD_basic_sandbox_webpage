@@ -1,0 +1,200 @@
+:root {
+  --isabelline: #f5f1ed;
+  --raisin-black-1: #2e2836 ;
+  --raisin-black-2: #252323;
+  --pink-pompadour-accent: #e27396;
+  --amaranth-pink: #ea9ab2;
+  --mimi-pink: #efcfe3;
+  --green-grass: #eaf2d7;
+  --light-blue: #b3dee2;
+  --khaki-accent: #a99985;
+  --wine-accent: #6a2e35;
+}
+.outfit-bold {
+  font-family: "Outfit", serif;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 32px;
+  color: #ffffff;
+  letter-spacing: 0.1rem;
+  margin: 0;
+}
+.outfit-32 {
+  font-family: "Outfit", serif;
+  font-weight: normal;
+  font-size: 32px;
+}
+.outfit-20 {
+  font-family: "Outfit", serif;
+  font-weight: normal;
+  font-size: 20px;
+}
+.outfit-18 {
+  font-family: "Outfit", serif;
+  font-weight: normal;
+  font-size: 18px;
+}
+a {
+  text-decoration: none;
+  color: #ffffff;
+}
+main {
+  max-width: 80%;
+  margin: 1em auto;
+}
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: var(--isabelline);
+}
+section.header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+header {
+  background: var(--raisin-black-1);
+  padding: 1em 4em;
+}
+#boxes {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+.box {
+  flex: 1;
+  /* width: 25%; */
+}
+.box-extra {
+  flex: 2;
+}
+#main-menu {
+  /* width: 450px;
+  align-content: center; */
+  color: #ffffff;
+}
+/* .menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #ffff00;
+} */
+#header-title {
+  color: #ffffff;
+}
+.product-label-price {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.box {
+  margin: 1em;
+  min-width: 300px;
+  min-height: 300px;
+  border-radius: 0.5em;
+  background:var(--raisin-black-1);
+}
+#menu-search-and-sort {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1.2em; 
+  margin-top: 4em;
+}
+#search-box-button {
+  margin-left: 8px;
+}
+#main-container {
+  display: flex;
+  flex-direction: row;
+}
+#shopping-basket {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  width: 350px;
+  border-radius: 0.5em;
+  border: solid 1px black;
+  background: var(--khaki-accent);
+}
+#shopping-label {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px 30px;
+
+}
+.add-item {
+  margin-left: 4px;
+}
+
+/* NEW add new styling selectors */
+
+.content-list {
+  color: #ffffff; margin: 0;
+  margin-bottom: 40px;
+}
+
+.content-list-outlier {
+  margin: 0;
+}
+
+.content-title {
+  text-align: center; margin: 0; padding: 40px 30px; color: #ffffff;
+}
+
+.sort-button-1 {
+  padding: 10px 40px; margin: 0px 30px; background: var(--amaranth-pink); 
+  border: solid 1px #5e313f;
+}
+
+.sort-button-2 {
+  padding: 10px 40px; background: var(--amaranth-pink); border: solid 1px #5e313f;
+}
+
+.sort-bar {
+  display: flex; justify-content: space-between; align-items: center; width: 100;
+}
+
+.filter-text {
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.search-button {
+  padding: 0px 40px; margin: 0px 30px; background: #eaf2d7; 
+  border: solid 1px #718347;
+}
+
+.search-bar {
+  display: flex; justify-content: space-between;
+}
+
+.title-section {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+}
+
+.title-header {
+  color: #ffffff; margin: 0px 70px
+}
+
+.page-links {
+  width: 300px; display: inline-flex; flex-direction: row; 
+  justify-content: space-between; list-style: none; padding: 0;
+}
+
+/* NOTE I added some font color palettes as custom variables */
+
+/* 
+
+https://coolors.co/e27396-ea9ab2-efcfe3-eaf2d7-b3dee2
+https://coolors.co/b6d094-e1aa7d-be8a60-6a2e35-2e2836
+https://coolors.co/252323-70798c-f5f1ed-dad2bc-a99985 
+
+*/

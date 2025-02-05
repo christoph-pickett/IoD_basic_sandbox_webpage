@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Christoph Pickett">
+    <meta name="description" content="A simple website for module 3 labs into practise">
+    <title>Ice Cream Website Demonstration</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bayon&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <section class="header">
+        <img id="logo" src="icecream-cup.png" alt="icecream-cup">
+        <div class="title-section">
+          <h1 id="header-title" class="title-header outfit-bold"></h1>
+          <nav id="main-menu">
+            <ul class="page-links outfit-20">
+            </ul>
+          </nav>
+        </div>
+      </section>
+    </header>
+    <main>
+      <div id="menu-search-and-sort">
+        <div class="search-bar">
+          <input class="" style="padding: 10px 10px;" class="outfit-18" type="text" id="search-box" placeholder="Search products..." />
+          <button class="search-button outfit-20" id="search-box-button" onclick="searchProducts()">
+            Search
+          </button>
+        </div>
+        <div class="filter-text">
+          <span class="outfit-20">Filter</span>
+        </div>
+        <div class="sort-bar">
+          <button class="sort-button-1 outfit-20" id="sort-alpha-button" onclick="sortForContentAlpha()">
+            ABC
+          </button>
+          <button class="sort-button-2 outfit-20" id="sort-numeric-button" onclick="sortForContentNumeric()">
+            123
+          </button>
+        </div>
+      </div>
+
+      <div id="main-container">
+        <section id="boxes">
+          <div id="content-one" class="box">
+            <h2 id="content-one-title" class="content-title outfit-32">One Scoop</h2>
+            <div id="content-one-items">
+            </div>
+          </div>
+          <div id="content-two" class="box">
+            <h2 id="content-two-title" class="content-title outfit-32">Two Scoops</h2>
+            <div id="content-two-items">
+            </div>
+          </div>
+          <div id="content-three" class="box box-extra">
+            <h2 id="content-three-title" class="content-title outfit-32">Three Scoops Coming Soon...</h2>
+            <div id="content-three-items">
+            </div>
+          </div>
+        </section>
+
+        <section id="shopping-basket">
+          <div class="outfit-32" id="shopping-label">Shopping Basket</div>
+          <div id="shopping-items">
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="main.js">
+    </script>
+  </body>
+</html>
