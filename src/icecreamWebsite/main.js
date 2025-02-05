@@ -1,5 +1,6 @@
 const ONE_SCOOP = "one_scoop";
 const TWO_SCOOPS = "two_scoops";
+const classForContent = "content-list outfit-20";
 
 // PRODUCT CONSTRUCTOR
 function Product(name, price, category) {
@@ -59,7 +60,7 @@ const twoScoopsItems = products.filter(
 );
 
 function menuBuilder(products) {
-  let htmlString = `<ul class="content-list outfit-20">`;
+  let htmlString = `<ul class="${classForContent}">`;
   products.forEach((item) => {
     htmlString += `<li>${item.name} - $${item.price.toFixed(
       2
@@ -242,14 +243,14 @@ function purchaseItem(product) {
 
 // NOTE Example of summing up the total price in the user's shopping basket 
 
-// const itemPrices = [4.95, 7.95, 3.95, 8.95];
-// let total = 0;
+const itemPrices = [4.95, 7.95, 3.95, 8.95];
+let total = 0;
 
-// itemPrices.forEach((price) => {
-//   total += price;
-// })
+itemPrices.forEach((price) => {
+  total += price;
+})
 
-// console.log("$" + total.toFixed(2));
+console.log("$" + total.toFixed(2));
 
 // NOTE Function from module 3 intermediate labs and from Hazel
 
@@ -261,4 +262,65 @@ const capFirstLetters = (str, special) => {
     .join(" ");
 };
 
+const shoppingBasket2 = [
+  {
+      "name": "Vanilla",
+      "price": 6.95,
+      "category": "one_scoop",
+      "qty": 1
+  },
+  {
+      "name": "Chocolate",
+      "price": 7.95,
+      "category": "two_scoops",
+      "qty": 2
+  },
+  {
+      "name": "Mint Choc Chip",
+      "price": 6.5,
+      "category": "one_scoop",
+      "qty": 1
+  },
+  
+];
+
+console.log(shoppingBasket2);
+
+function checkout(array) {
+  const talliedItems = {totalSum: 0, totalItems: 0};
+
+  if (!array) {
+    return talliedItems;
+  }
+
+  if (array && array.length > 0) {
+    let sumOfCost = 0;
+    let sumOfItems = 0;
+
+    array.forEach((product) => {
+      sumOfCost += product.price * product.qty;
+      sumOfItems += product.qty;
+    });
+
+    talliedItems.totalSum = sumOfCost;
+    talliedItems.totalItems = sumOfItems;
+
+    return talliedItems;
+    // console.log("totalItems", totalItems);
+    // console.log("totalISum", '$' + totalSum.toFixed(2));
+  }
+  
+  // let totalPrice = 0;
+
+  // array.forEach((product) => {
+  //   totalPrice += product.price * product.qty;
+  // })
+  // return "$" + totalPrice.toFixed(2);
+}
+
+console.log("Checkout Total:", checkout(shoppingBasket2));
+// checkout(shoppingBasket2);
+
 // TODO Chris will go through some slides with the usage of Set() and Map() in JS
+
+// TODO Chris will go through Array destructuring
